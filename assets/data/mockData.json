@@ -1,0 +1,149 @@
+{
+  "party_interests": [
+    {"id": "1", "label": "Classic Parties", "image": "../../../assets/images/Logo.png"},
+    {"id": "2", "label": "Beach Events", "image": "../../../assets/images/Logo.png"},
+    {"id": "3", "label": "Afrobeats Shows", "image": "../../../assets/images/Logo.png"},
+    {"id": "4", "label": "Concerts", "image": "../../../assets/images/Logo.png"},
+    {"id": "5", "label": "Private Lounge Nights", "image": "../../../assets/images/Logo.png"},
+    {"id": "6", "label": "Cultural Events", "image": "../../../assets/images/Logo.png"},
+    {"id": "7", "label": "Karaoke Nights", "image": "../../../assets/images/Logo.png"},
+    {"id": "8", "label": "Pool Parties", "image": "../../../assets/images/Logo.png"},
+    {"id": "9", "label": "Charity Galas", "image": "../../../assets/images/Logo.png"},
+    {"id": "10", "label": "Brunch & Chill", "image": "../../../assets/images/Logo.png"}
+  ],
+  "users": {
+    "hosts": [
+      {
+        "id": "usr_host_001",
+        "role": "host",
+        "full_name": "Adaobi Nwosu",
+        "email": "adaobi@example.com",
+        "password": "hostpass123",
+        "organization_name": "Events by Ada",
+        "payout_details": {
+          "bank_name": "GTBank",
+          "account_number": "0123456789"
+        },
+        "interests": [
+          "Classic Parties",
+          "Concerts",
+          "Charity Galas"
+        ],
+        "profile_picture_url": "https://example.com/images/adaobi.jpg",
+        "created_at": "2025-10-01T10:00:00Z"
+      }
+    ],
+    "attendees": [
+      {
+        "id": "usr_att_001",
+        "role": "attendee",
+        "full_name": "Chinedu Okafor",
+        "email": "chinedu@example.com",
+        "password": "password123",
+        "saved_payment_methods": [
+          "card_token_123"
+        ],
+        "interests": [
+          "Beach Events",
+          "Afrobeats Shows",
+          "Pool Parties"
+        ],
+        "profile_picture_url": "https://example.com/images/chinedu.jpg",
+        "created_at": "2025-10-05T12:00:00Z"
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "evt_001",
+      "host_id": "usr_host_001",
+      "title": "Lagos Night Vibes",
+      "description": "Experience the hottest nightlife event in Lagos featuring top DJs and live performances.",
+      "cover_images": [
+        "https://example.com/images/lagos_night_vibes_cover.jpg"
+      ],
+      "start_datetime": "2025-11-05T20:00:00Z",
+      "end_datetime": "2025-11-06T03:00:00Z",
+      "timezone": "Africa/Lagos",
+      "venue_name": "Victoria Island Lounge",
+      "venue_address": "12A Adeola Odeku Street, Victoria Island, Lagos",
+      "venue_coordinates": {
+        "lat": 6.4281,
+        "lng": 3.4219
+      },
+      "is_online": false,
+      "status": "published",
+      "total_capacity": 500,
+      "ticket_tiers": [
+        {
+          "tier_id": "tier_001",
+          "name": "Regular",
+          "price_cents": 500000,
+          "currency": "NGN",
+          "quantity": 300,
+          "remaining": 220,
+          "sales_start": "2025-10-10T00:00:00Z",
+          "sales_end": "2025-11-05T18:00:00Z"
+        },
+        {
+          "tier_id": "tier_002",
+          "name": "VIP",
+          "price_cents": 1200000,
+          "currency": "NGN",
+          "quantity": 200,
+          "remaining": 80,
+          "sales_start": "2025-10-10T00:00:00Z",
+          "sales_end": "2025-11-05T18:00:00Z"
+        }
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "order_id": "ord_001",
+      "user_id": "usr_att_001",
+      "event_id": "evt_001",
+      "tickets": [
+        {
+          "ticket_id": "tkt_001",
+          "tier": "VIP",
+          "price_cents": 1200000,
+          "currency": "NGN",
+          "qr_code_url": "https://example.com/qr/tkt_001.png",
+          "status": "active"
+        }
+      ],
+      "total_cents": 1200000,
+      "currency": "NGN",
+      "status": "succeeded",
+      "created_at": "2025-10-10T13:00:00Z"
+    }
+  ],
+  "checkins": [
+    {
+      "ticket_id": "tkt_001",
+      "scanner_id": "device_01",
+      "checked_in_at": "2025-11-05T20:15:00Z",
+      "device_info": "iPhone 14 Pro",
+      "location": "Victoria Island Lounge Entrance"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "noti_001",
+      "user_id": "usr_att_001",
+      "title": "Your ticket for Lagos Night Vibes \ud83c\udf89",
+      "body": "Your VIP ticket has been confirmed. Tap to view your QR code.",
+      "created_at": "2025-10-10T13:01:00Z",
+      "type": "purchase_success"
+    },
+    {
+      "id": "noti_002",
+      "user_id": "usr_att_001",
+      "title": "Event reminder",
+      "body": "Lagos Night Vibes starts in 24 hours \u2014 don\u2019t miss out!",
+      "created_at": "2025-11-04T20:00:00Z",
+      "type": "reminder"
+    }
+  ]
+}
