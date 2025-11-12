@@ -32,7 +32,6 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="HomeScreen" component={HomePage} />
-      <HomeStack.Screen name="Details" component={EventDetails} />
       <EventsStack.Screen name="SearchScreen" component={Search} />
       <HomeStack.Screen name="ReviewsScreen" component={Reviews} />
     </HomeStack.Navigator>

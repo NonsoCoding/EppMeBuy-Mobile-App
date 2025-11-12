@@ -1,10 +1,11 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Image,
+  Linking,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,6 +17,8 @@ import { useTheme } from "../../../Settings/ThemeContext";
 import tw from "../../../Settings/tailwind";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingScreen from "../../Modals/LoadingScreen";
+import * as WebBrowser from "expo-web-browser";
+import * as AuthSession from "expo-auth-session";
 
 interface IPropsLogin {
   navigation?: any;
@@ -31,18 +34,70 @@ const loginScheme = Yup.object().shape({
     .required("Password is required"),
 });
 
+WebBrowser.maybeCompleteAuthSession();
+
 const Login = ({ navigation, route }: IPropsLogin) => {
   const { colors } = useTheme();
 
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+
+      // Create the redirect URI that your backend should use
+      const redirectUri = "myapp://auth/callback";
+
+      // Pass the redirect URI to your backend
+      const authUrl = `${apiUrl}/api/auth/google?redirectUri=${encodeURIComponent(
+        redirectUri
+      )}`;
+
+      console.log("Opening auth URL:", authUrl);
+
+      const result = await WebBrowser.openAuthSessionAsync(
+        authUrl,
+        redirectUri
+      );
+
+      console.log("Auth session result:", result);
+
+      if (result.type === "success" && result.url) {
+        // Handle the callback URL
+        const urlObj = new URL(result.url);
+        const accessToken = urlObj.searchParams.get("accessToken");
+        const refreshToken = urlObj.searchParams.get("refreshToken");
+
+        if (accessToken && refreshToken) {
+          await AsyncStorage.setItem("accessToken", accessToken);
+          await AsyncStorage.setItem("refreshToken", refreshToken);
+
+          setLoading(false);
+          Alert.alert("Success", "Google login successful!");
+          navigation.replace("Tabs");
+        } else {
+          setLoading(false);
+          Alert.alert("Error", "Failed to retrieve tokens");
+        }
+      } else if (result.type === "cancel") {
+        setLoading(false);
+        Alert.alert("Login cancelled");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Google login error:", error);
+      Alert.alert("Error", "Failed to login with Google");
+    }
+  };
 
   const handleLogin = async (values: any) => {
     console.log("Login data: ", values);
     setLoading(true);
     try {
-      const res = await fetch("https://server.myport.com.ng/api/auth/login", {
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,14 +112,15 @@ const Login = ({ navigation, route }: IPropsLogin) => {
       const data = JSON.parse(text);
       console.log("Server response:", data);
       if (res.ok && data.success) {
+        await AsyncStorage.setItem("accessToken:", data.accessToken);
+        await AsyncStorage.setItem("refreshToken:", data.refreshToken);
         Alert.alert("Success", "Login successfull welcome to your dashboard.");
         navigation.replace("Tabs");
+        setLoading(false);
       } else {
+        setLoading(false);
         Alert.alert("Failed", "invalid credentials.");
       }
-      await AsyncStorage.setItem("accessToken: ", data.accessToken);
-      await AsyncStorage.setItem("refreshToken: ", data.refreshToken);
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("Login error", error);
@@ -173,7 +229,7 @@ const Login = ({ navigation, route }: IPropsLogin) => {
                     <View
                       style={[
                         tw`rounded-md px-5
-                                     py-1.5 rounded-full flex flex-row items-center gap-2`,
+                                      py-1.5 rounded-full flex flex-row items-center gap-2`,
                         { backgroundColor: "rgba(255, 0, 0, 0.1)" },
                       ]}
                     >
@@ -241,7 +297,7 @@ const Login = ({ navigation, route }: IPropsLogin) => {
                     <View
                       style={[
                         tw`rounded-md px-5
-                                     py-1.5 rounded-full flex flex-row items-center gap-2`,
+                                      py-1.5 rounded-full flex flex-row items-center gap-2`,
                         { backgroundColor: "rgba(255, 0, 0, 0.1)" },
                       ]}
                     >
@@ -334,6 +390,9 @@ const Login = ({ navigation, route }: IPropsLogin) => {
                   <Text style={[tw`text-center font-semibold`]}>Facebook</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={() => {
+                    handleGoogleLogin();
+                  }}
                   style={[
                     tw` border gap-2 flex-row items-center justify-center border-gray-200 rounded-xl px-4 py-3 flex-1`,
                   ]}

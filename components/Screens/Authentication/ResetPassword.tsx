@@ -39,26 +39,25 @@ const ResetPassword = ({ navigation, route }: IPropsResetPassword) => {
   const { colors } = useTheme();
   const { otp, email, phoneNumber } = route.params || {};
 
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
   const handleResetPassword = async (values: any) => {
     console.log("ForgottenPassword:", otp);
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://server.myport.com.ng/api/auth/reset-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            otp: otp,
-            newPassword: values.newPassword,
-            email,
-            phoneNumber,
-          }),
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/auth/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          otp: otp,
+          newPassword: values.newPassword,
+          email,
+          phoneNumber,
+        }),
+      });
 
       console.log("Response status: ", res.status);
       const text = await res.text();

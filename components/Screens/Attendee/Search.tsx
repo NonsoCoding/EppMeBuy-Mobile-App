@@ -173,7 +173,7 @@ const Search = ({ navigation }: IPropsSearch) => {
             {partiesEvents.map((items, index) => (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("/Authentication/Attendee/EventDetails");
+                  navigation.navigate("Details");
                 }}
                 key={index}
                 style={[

@@ -26,6 +26,8 @@ const PersonalInfo = ({ navigation, route }: any) => {
   const { email, password, phoneNumber } = route.params;
   const [loading, setLoading] = useState(false);
 
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
   const handleFinalSubmit = async (values: any) => {
     setLoading(true);
     const userData = {
@@ -33,12 +35,12 @@ const PersonalInfo = ({ navigation, route }: any) => {
       password,
       phoneNumber,
       ...values,
-      role: values.role.toUpperCase,
+      role: values.role.toUpperCase(),
     };
     console.log("Final Sign-Up Data:", userData);
 
     try {
-      const res = await fetch("https://server.myport.com.ng/api/auth/signup", {
+      const res = await fetch(`${apiUrl}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

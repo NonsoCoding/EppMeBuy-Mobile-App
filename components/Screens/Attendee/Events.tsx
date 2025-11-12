@@ -410,7 +410,7 @@ export default function EventsScreen({ navigation }: IpropsEvent) {
         )}
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("/Authentication/Attendee/ExploreEvents");
+            navigation.navigate("ExploreEventsScreen");
           }}
           style={[
             tw`py-4 mb-4 absolute rounded-full w-full bottom-0 items-center`,

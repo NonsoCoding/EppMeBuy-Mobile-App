@@ -20,6 +20,10 @@ import CreateEvent from "../Screens/Host/CreateEvent/Index";
 import Notifications from "../Screens/Attendee/Notifications";
 import Bookmarks from "../Screens/Attendee/Bookmarks";
 import Search from "../Screens/Attendee/Search";
+import Featured from "../Screens/Attendee/Featured";
+import Trending from "../Screens/Attendee/Trending";
+import BuyTicket from "../Screens/Attendee/TicketPayments.tsx/BuyTicket";
+import ExploreEvents from "../Screens/Attendee/ExploreEvents";
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +100,26 @@ const StackNavigator = () => {
         <Stack.Screen
           name="ResetEmailLinkScreen"
           component={EmailResetLink}
+          options={{ title: "Details" }}
+        />
+        <Stack.Screen
+          name="TrendingScreen"
+          component={Trending}
+          options={{ title: "Details" }}
+        />
+        <Stack.Screen
+          name="ExploreEventsScreen"
+          component={ExploreEvents}
+          options={{ title: "Details" }}
+        />
+        <Stack.Screen
+          name="BuyTicketScreen"
+          component={BuyTicket}
+          options={{ title: "Details" }}
+        />
+        <Stack.Screen
+          name="FeaturedScreen"
+          component={Featured}
           options={{ title: "Details" }}
         />
         <Stack.Screen

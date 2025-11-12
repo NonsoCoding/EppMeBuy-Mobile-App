@@ -129,7 +129,7 @@ const HomePage = ({ navigation }: IPropsHomePage) => {
               placeholder="Search"
               placeholderTextColor={"#333"}
               style={tw`flex-1 py-3`}
-              onFocus={() => navigation.replace("SearchScreen")}
+              onFocus={() => navigation.navigate("SearchScreen")}
             />
             <Ionicons
               name={"search"}
@@ -158,7 +158,7 @@ const HomePage = ({ navigation }: IPropsHomePage) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.replace("/(tabs)/Attendee/Featured");
+                navigation.navigate("FeaturedScreen");
               }}
             >
               <Text
@@ -184,7 +184,7 @@ const HomePage = ({ navigation }: IPropsHomePage) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.replace("/(tabs)/Attendee/Trending");
+                navigation.navigate("TrendingScreen");
               }}
             >
               <Text

@@ -31,21 +31,20 @@ const PhoneResetLink = ({ navigation, route }: IPropsLogin) => {
   const [loading, setLoading] = useState(false);
   const { colors } = useTheme();
 
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
   const handlePhoneReset = async (values: any) => {
     setLoading(true);
     console.log("Phone Values: ", "+243", values);
     try {
-      const res = await fetch(
-        "https://server.myport.com.ng/api/auth/forgot-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/auth/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
       const text = await res.text();
       const data = JSON.parse(text);

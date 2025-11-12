@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -97,7 +97,7 @@ const PhoneNumber = ({ navigation, route }: IPropsLogin) => {
               </Text>
               <View
                 style={[
-                  tw`px-3 rounded-xl text-base flex-row items-center justify-between`,
+                  tw`px-3 rounded-xl gap-3 text-base flex-row items-center justify-between`,
                   {
                     borderColor:
                       focusedField === "phoneNumber"
@@ -116,6 +116,10 @@ const PhoneNumber = ({ navigation, route }: IPropsLogin) => {
                   },
                 ]}
               >
+                <Image
+                  style={[tw`w-7 h-7`]}
+                  source={require("../../../assets/images/flag.png")}
+                />
                 <TextInput
                   placeholder="+234 9163440787"
                   placeholderTextColor={"#A0A0A0"}

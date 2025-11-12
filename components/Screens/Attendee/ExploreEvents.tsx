@@ -100,7 +100,7 @@ const ExploreEvents = ({ navigation }: IPropsSearch) => {
               color={colors.buttonBackground}
             />
           </TouchableOpacity>
-          <Text style={[tw`text-xl`, { color: colors.text }]}>
+          <Text style={[tw`text-xl font-semibold`, { color: colors.text }]}>
             Explore Event
           </Text>
         </View>
@@ -116,9 +116,6 @@ const ExploreEvents = ({ navigation }: IPropsSearch) => {
               placeholder="Search"
               placeholderTextColor={"#333"}
               style={tw`flex-1 py-3`}
-              onFocus={() =>
-                navigation.navigate("/Authentication/Attendee/Search")
-              }
             />
             <Ionicons
               name={"search"}

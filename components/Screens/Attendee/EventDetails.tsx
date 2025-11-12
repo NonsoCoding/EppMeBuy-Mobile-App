@@ -1,4 +1,4 @@
-import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
   Image,
@@ -43,7 +43,7 @@ const EventDetails = ({ navigation }: IPropsEventDetails) => {
         >
           <TouchableOpacity
             style={[
-              tw`p-3 rounded-full`,
+              tw`p-3 rounded-full self-start`,
               {
                 backgroundColor: colors.lighterBg,
               },
@@ -302,6 +302,65 @@ const EventDetails = ({ navigation }: IPropsEventDetails) => {
             </View>
           </View>
         </ScrollView>
+      </View>
+      <View
+        style={[
+          tw`border flex-row border-gray-300 rounded-t-md justify-between px-5 py-6`,
+        ]}
+      >
+        <View style={[tw`flex-row gap-4 items-center`]}>
+          <TouchableOpacity
+            style={[
+              tw`rounded-full p-3`,
+              {
+                backgroundColor: colors.lighterBg,
+              },
+            ]}
+          >
+            <Entypo name="share" size={25} color={colors.buttonBackground} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              tw`rounded-full p-3`,
+              {
+                backgroundColor: colors.lighterBg,
+              },
+            ]}
+          >
+            <Feather
+              name="bookmark"
+              size={25}
+              color={colors.buttonBackground}
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("BuyTicketScreen");
+          }}
+          style={[
+            tw`flex-row items-center items-center justify-center w-[60%] py-4 rounded-full gap-2`,
+            {
+              backgroundColor: colors.buttonBackground,
+            },
+          ]}
+        >
+          <Text
+            style={[
+              tw`font-bold`,
+              {
+                color: colors.buttonText,
+              },
+            ]}
+          >
+            Buy Ticket
+          </Text>
+          <FontAwesome6
+            name="arrow-right-long"
+            size={17}
+            color={colors.buttonText}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

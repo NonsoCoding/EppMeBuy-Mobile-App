@@ -1,12 +1,20 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Checkbox } from "react-native-paper";
 import * as Yup from "yup";
 import tw from "../../../Settings/tailwind";
 import { useTheme } from "../../../Settings/ThemeContext";
 import * as WebBrowser from "expo-web-browser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface IPropsLogin {
   navigation: any;
@@ -29,7 +37,54 @@ const SignUp = ({ navigation, email, password }: IPropsLogin) => {
   const [checked, setChecked] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { colors } = useTheme();
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
+  const handleGoogleCreate = async () => {
+    try {
+      setLoading(true);
+
+      const redirectUri = "myapp://auth/callback";
+      const authUri = `${apiUrl}/api/auth/google?redirectUri=${encodeURIComponent(
+        redirectUri
+      )}`;
+
+      console.log("Opening auth URL: ", authUri);
+
+      const result = await WebBrowser.openAuthSessionAsync(
+        authUri,
+        redirectUri
+      );
+
+      console.log("Auth session result: ", result);
+
+      if (result.type === "success" && result.url) {
+        const urlObj = new URL(result.url);
+        const accessToken = urlObj.searchParams.get("accessToken");
+        const refreshToken = urlObj.searchParams.get("refreshToken");
+
+        if (accessToken && refreshToken) {
+          await AsyncStorage.setItem("accessToken", accessToken);
+          await AsyncStorage.setItem("refreshToken", refreshToken);
+
+          setLoading(false);
+          Alert.alert("Success", "Google login successful!");
+          navigation.replace("Tabs");
+        } else {
+          setLoading(false);
+          Alert.alert("Error", "Failed to retrieve tokens");
+        }
+      } else if (result.type === "cancel") {
+        setLoading(false);
+        Alert.alert("Login cancelled");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Google login error:", error);
+      Alert.alert("Error", "Failed to login with Google");
+    }
+  };
 
   return (
     <Formik
@@ -273,6 +328,9 @@ const SignUp = ({ navigation, email, password }: IPropsLogin) => {
                 <Text style={[tw`text-center font-semibold`]}>Facebook</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => {
+                  handleGoogleCreate();
+                }}
                 style={[
                   tw` border gap-2 flex-row items-center justify-center border-gray-200 rounded-xl px-4 py-3 flex-1`,
                 ]}
